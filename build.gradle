@@ -1,0 +1,31 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.4.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.0'
+}
+
+group 'pl.szymonprz'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+intellij {
+    version '2018.3'
+    sandboxDirectory = "$project.buildDir/myCustom-sandbox"
+}
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
