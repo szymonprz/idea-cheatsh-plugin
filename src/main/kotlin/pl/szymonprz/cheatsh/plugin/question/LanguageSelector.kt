@@ -1,7 +1,7 @@
 package pl.szymonprz.cheatsh.plugin.question
 
 class LanguageSelector {
-    private val supportedLangages = listOf(
+    private val supportedLanguages = listOf(
         KotlinLang(),
         JavaLang(),
         ScalaLang(),
@@ -20,7 +20,7 @@ class LanguageSelector {
     )
 
     fun langFromExtension(extension: String): String {
-        return supportedLangages.firstOrNull { it.accepts(extension) }
+        return supportedLanguages.firstOrNull { it.accepts(extension) }
             ?.language() ?: ""
     }
 }
