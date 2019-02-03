@@ -1,10 +1,10 @@
 <idea-plugin>
-    <id>pl.szymonprz.intellij-cheatsh-plugin</id>
+    <id>pl.szymonprz.idea-cheatsh-plugin</id>
     <name>cheat.sh support</name>
     <vendor email="szymon.przebierowski@gmail.com">Szymon Przebierowski</vendor>
 
     <description><![CDATA[
-    Plugin for loading code snippets from cheat.sh
+    Plugin for loading code snippets from cheat.sh directly to editor without need to switch your mental context
     ]]></description>
 
     <depends>com.intellij.modules.lang</depends>
@@ -14,7 +14,7 @@
     </extensions>
 
     <actions>
-        <action id="IntellijCheatshPlugin.pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" text="Find snippet" description="Loads answerts">
+        <action id="IdeaCheatshPlugin.pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" text="Find snippet" description="Loads answers">
             <add-to-group group-id="EditorPopupMenu1.FindRefactor" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
         </action>
