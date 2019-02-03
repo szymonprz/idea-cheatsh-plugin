@@ -1,17 +1,13 @@
 <idea-plugin>
     <id>pl.szymonprz.intellij-cheatsh-plugin</id>
     <name>cheat.sh support</name>
-    <vendor email="szymonprz@gmail.com">Szymon Przebierowski</vendor>
+    <vendor email="szymon.przebierowski@gmail.com">Szymon Przebierowski</vendor>
 
     <description><![CDATA[
     Plugin for loading code snippets from cheat.sh
     ]]></description>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
-    -->
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
