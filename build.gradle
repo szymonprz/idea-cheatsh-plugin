@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'pl.szymonprz'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+    compile "com.mashape.unirest:unirest-java:1.4.9"
 
     testCompile "org.spockframework:spock-core:1.2-groovy-2.4"
 
@@ -26,11 +26,11 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 intellij {
-    version '2018.3'
+    version '2018.2'
     sandboxDirectory = "$project.buildDir/myCustom-sandbox"
 }
 patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+    sinceBuild = '162'
+    untilBuild = '190.*'
+    changeNotes """"""
 }

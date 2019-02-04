@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>pl.szymonprz.idea-cheatsh-plugin</id>
-    <name>cheat.sh support</name>
+    <name>cheat.sh code snippets</name>
     <vendor email="szymon.przebierowski@gmail.com">Szymon Przebierowski</vendor>
 
     <description><![CDATA[
@@ -19,5 +19,6 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
         </action>
     </actions>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
+    <idea-version since-build="162"/>
 </idea-plugin>

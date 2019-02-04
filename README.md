@@ -8,7 +8,7 @@ Plugin for loading code snippets from cheat.sh directly to editor without need t
 
 ## Instalation 
 
-Install from idea plugins marketplace 
+Install from [idea plugins marketplace](https://plugins.jetbrains.com/plugin/11942-cheat-sh-code-snippets) 
 
 ## Usage
 
