@@ -26,8 +26,8 @@ class QuestionBuilder {
 
     fun build(): String {
         return if (context != "") {
-            "$context/$question"
-        } else question
+            "$context/$question?Q"
+        } else "$question?Q"
     }
 
     private fun encode(question: String): String {
