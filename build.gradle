@@ -26,11 +26,10 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 intellij {
-    version '2018.2'
+    version '2018.3'
     sandboxDirectory = "$project.buildDir/myCustom-sandbox"
 }
 patchPluginXml {
     sinceBuild = '162'
-    untilBuild = '190.*'
     changeNotes """"""
 }
