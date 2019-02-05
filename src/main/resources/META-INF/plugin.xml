@@ -10,7 +10,8 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <projectService serviceImplementation="pl.szymonprz.cheatsh.plugin.model.Storage"/>
+        <projectConfigurable id="settings.cheatsh" instance="pl.szymonprz.cheatsh.plugin.ui.Configuration"/>
     </extensions>
 
     <actions>

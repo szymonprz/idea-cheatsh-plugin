@@ -1,7 +1,9 @@
 package pl.szymonprz.cheatsh.plugin.question
 
+import pl.szymonprz.cheatsh.plugin.model.Storage
 
-class QuestionBuilder {
+
+class QuestionBuilder(private val storage: Storage) {
     var context = ""
     var question = ""
     var contextFromQuestion = false
@@ -25,9 +27,15 @@ class QuestionBuilder {
     }
 
     fun build(): String {
-        return if (context != "") {
-            "$context/$question?Q"
-        } else "$question?Q"
+        return applyContext(applyCommentsModificator(question))
+    }
+
+    private fun applyContext(question: String): String {
+        return if (context != "") "$context/$question" else question
+    }
+
+    private fun applyCommentsModificator(question: String): String {
+        return if (!storage.commentsEnabled) "$question?Q" else question
     }
 
     private fun encode(question: String): String {
