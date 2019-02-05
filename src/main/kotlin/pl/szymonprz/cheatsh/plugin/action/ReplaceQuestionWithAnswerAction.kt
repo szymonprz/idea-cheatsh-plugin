@@ -2,11 +2,14 @@ package pl.szymonprz.cheatsh.plugin.action
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleManager
 import pl.szymonprz.cheatsh.plugin.answerclient.CheatshAnswerLoader
+import pl.szymonprz.cheatsh.plugin.model.Storage
 import pl.szymonprz.cheatsh.plugin.question.QuestionBuilder
 
 
@@ -28,14 +31,8 @@ class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerActio
         val end = selectionModel.selectionEnd
         val text = document.getText(TextRange.create(start, end)).replace(Regex("\\s+"), "+")
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
-        var questionBuilder = QuestionBuilder()
-        if (currentFile != null) {
-            questionBuilder = questionBuilder.fromFile(currentFile.extension ?: "")
-        }
-
-        val question = questionBuilder.fromQuestion(text)
-            .build()
         project?.let {
+            val question = buildQuestion(it, currentFile, text)
             CheatshAnswerLoader().answerFor(question) { answer ->
                 WriteCommandAction.runWriteCommandAction(it) {
                     document.replaceString(start, end, answer)
@@ -44,6 +41,20 @@ class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerActio
             }
             selectionModel.removeSelection(true)
         }
+    }
+
+    private fun buildQuestion(
+        project: Project,
+        currentFile: VirtualFile?,
+        text: String
+    ): String {
+        val storage = ServiceManager.getService(project, Storage::class.java)
+        var questionBuilder = QuestionBuilder(storage)
+        if (currentFile != null) {
+            questionBuilder = questionBuilder.fromFile(currentFile.extension ?: "")
+        }
+        return questionBuilder.fromQuestion(text)
+            .build()
     }
 
     private fun reformatFileInRange(
