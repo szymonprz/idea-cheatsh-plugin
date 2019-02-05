@@ -19,6 +19,6 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
         </action>
     </actions>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <idea-version since-build="162"/>
 </idea-plugin>
