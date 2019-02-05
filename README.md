@@ -5,6 +5,7 @@ Plugin for loading code snippets from cheat.sh directly to editor without need t
 * No configuration needed to start using it
 * Detects context/programming language from current file opened in editor
 * Default keyboard shortcut added <kbd>Alt</kbd> + <kbd>C</kbd> , <kbd>S</kbd>
+* Possibility to enable/disable comments per project - comments are disabled by default
 
 ## Instalation 
 
@@ -34,6 +35,13 @@ Install from [idea plugins marketplace](https://plugins.jetbrains.com/plugin/119
 2. Execute action "Find snippet"
 
 ![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/executeAction.gif)
+
+## Configuration options
+
+1. Enable/Disable comments per project
+
+![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/configuration.png)
+
 
 ## Contributing
 
