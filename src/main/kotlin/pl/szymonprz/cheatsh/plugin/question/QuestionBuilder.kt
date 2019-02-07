@@ -1,33 +1,37 @@
 package pl.szymonprz.cheatsh.plugin.question
 
+import com.intellij.openapi.vfs.VirtualFile
 import pl.szymonprz.cheatsh.plugin.model.Storage
 
 
-class QuestionBuilder(private val storage: Storage) {
-    var context = ""
-    var question = ""
-    var contextFromQuestion = false
+class QuestionBuilder(private val storage: Storage, private val askedQuestion: String, private val editingFile: VirtualFile? = null) {
+    private var context = ""
+    private var question = ""
+    private var contextFromQuestion = false
 
-    fun fromFile(extension: String): QuestionBuilder {
-        if (contextFromQuestion) return this
-        context = LanguageSelector().langFromExtension(extension)
-        return this
+    fun build(): String {
+        if (editingFile != null) {
+            this.prepareContext(editingFile.extension ?: "")
+        }
+        prepareQuestion()
+        return applyContext(applyCommentsModificator(question))
     }
 
-    fun fromQuestion(value: String): QuestionBuilder {
-        if (value.contains("/")) {
-            val questionWithContext = value.split("/")
+    private fun prepareContext(extension: String) {
+        if (!contextFromQuestion){
+            context = LanguageSelector().langFromExtension(extension)
+        }
+    }
+
+    private fun prepareQuestion() {
+        if (askedQuestion.contains("/")) {
+            val questionWithContext = askedQuestion.split("/")
             context = questionWithContext[0]
             question = encode(questionWithContext.drop(1).joinToString(separator = "/"))
             contextFromQuestion = true
         } else {
-            question = encode(value)
+            question = encode(askedQuestion)
         }
-        return this
-    }
-
-    fun build(): String {
-        return applyContext(applyCommentsModificator(question))
     }
 
     private fun applyContext(question: String): String {

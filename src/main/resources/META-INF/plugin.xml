@@ -19,6 +19,10 @@
             <add-to-group group-id="EditorPopupMenu1.FindRefactor" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
         </action>
+        <action id="PreviewAnswers" class="pl.szymonprz.cheatsh.plugin.action.PreviewAnswers" text="Preview answers"
+                description="Preview multiple answers">
+            <keyboard-shortcut keymap="$default" first-keystroke="alt P"/>
+        </action>
     </actions>
     <version>1.2.0-SNAPSHOT</version>
     <idea-version since-build="162"/>
