@@ -6,7 +6,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleManager
-import pl.szymonprz.cheatsh.plugin.answerclient.ExecuteActionOnAnswer
+import pl.szymonprz.cheatsh.plugin.ui.ReplaceQuestionWithAnswerHandler
+import pl.szymonprz.cheatsh.plugin.utils.EditorUtils
 
 
 class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerAction") {
@@ -28,26 +29,20 @@ class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerActio
         val question = document.getText(TextRange.create(start, end)).replace(Regex("\\s+"), "+")
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         project?.let { projectHandle ->
-            ExecuteActionOnAnswer(projectHandle, currentFile).apply(question) {
-                WriteCommandAction.runWriteCommandAction(projectHandle) {
-                    document.replaceString(start, end, it)
-                    reformatFileInRange(projectHandle, psiFile, start, start + it.length)
+
+            ReplaceQuestionWithAnswerHandler(projectHandle, currentFile, question,
+                {
+                    WriteCommandAction.runWriteCommandAction(projectHandle) {
+                        document.replaceString(start, end, it)
+                        EditorUtils.reformatFileInRange(projectHandle, psiFile, start, start + it.length)
+                    }
+                }, {
+                    WriteCommandAction.runWriteCommandAction(projectHandle) {
+                        document.replaceString(start, end, "no answers for given question")
+                    }
                 }
-            }
+            ).execute()
             selectionModel.removeSelection(true)
         }
     }
-
-    private fun reformatFileInRange(
-        project: Project,
-        psiFile: PsiFile?,
-        start: Int,
-        end: Int
-    ) {
-        val codeStyleManager = CodeStyleManager.getInstance(project)
-        psiFile?.let { file ->
-            codeStyleManager.reformatText(file, start, end)
-        }
-    }
-
 }

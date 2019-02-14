@@ -4,21 +4,31 @@ import com.intellij.openapi.vfs.VirtualFile
 import pl.szymonprz.cheatsh.plugin.model.Storage
 
 
-class QuestionBuilder(private val storage: Storage, private val askedQuestion: String, private val editingFile: VirtualFile? = null) {
+class QuestionBuilder(
+    private val storage: Storage,
+    private val askedQuestion: String,
+    private val fileExtension: String? = null
+) {
     private var context = ""
     private var question = ""
     private var contextFromQuestion = false
+    private var answerNumber = 0
 
     fun build(): String {
-        if (editingFile != null) {
-            this.prepareContext(editingFile.extension ?: "")
+        if (fileExtension != null) {
+            this.prepareContext(fileExtension)
         }
         prepareQuestion()
-        return applyContext(applyCommentsModificator(question))
+        return applyContext(applyCommentsModificator(applyAnswerNumber(question)))
+    }
+
+    fun askForAnswerNumber(number: Int): QuestionBuilder {
+        if (number != 0) answerNumber = number
+        return this
     }
 
     private fun prepareContext(extension: String) {
-        if (!contextFromQuestion){
+        if (!contextFromQuestion) {
             context = LanguageSelector().langFromExtension(extension)
         }
     }
@@ -40,6 +50,11 @@ class QuestionBuilder(private val storage: Storage, private val askedQuestion: S
 
     private fun applyCommentsModificator(question: String): String {
         return if (!storage.commentsEnabled) "$question?Q" else question
+    }
+
+
+    private fun applyAnswerNumber(question: String): String {
+        return if (answerNumber != 0) "$question/$answerNumber" else question
     }
 
     private fun encode(question: String): String {

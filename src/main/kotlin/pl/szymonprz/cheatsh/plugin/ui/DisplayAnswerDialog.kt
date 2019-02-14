@@ -3,54 +3,90 @@ package pl.szymonprz.cheatsh.plugin.ui
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.ui.components.JBScrollPane
-import pl.szymonprz.cheatsh.plugin.answerclient.ExecuteActionOnAnswer
+import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import java.awt.Insets
-import java.awt.event.KeyAdapter
+import java.awt.event.ActionEvent
+import java.awt.event.InputEvent
 import java.awt.event.KeyEvent
+import java.util.concurrent.atomic.AtomicInteger
 import javax.swing.*
 
 
-class DisplayAnswerDialog(private val project: Project?, private val currentFile: VirtualFile?) : DialogWrapper(false) {
-    private val question = JTextField("", 60)
-    private val answer = JTextArea(20, 60)
+class DisplayAnswerDialog(project: Project, currentFile: VirtualFile) : DialogWrapper(false) {
+    private val answerNumber = AtomicInteger()
 
-    private val keyPressedListener = KeyPressedAdapter(project, currentFile, { question.text }) {
-        answer.text = it
+    private val question = JTextField("", 60)
+    private val answer = ScrollableEditorTextField(project, currentFile.fileType)
+
+    private val onWrittenQuestionAnswerHandler =
+        OnWrittenQuestionAnswerHandler(project, currentFile, question, saveAnswerInTextArea())
+
+    private val keyPressedListener =
+        KeyPressedAdapter(onWrittenQuestionAnswerHandler, answerNumber)
+
+    private val previousAnswerHandler =
+        PreviousAnswerHandler(project, currentFile, question, answerNumber, saveAnswerInTextArea())
+    private val previousAnswerAction = object : AbstractAction("Previous answer") {
+        override fun actionPerformed(e: ActionEvent?) {
+            previousAnswerHandler.execute()
+        }
     }
 
+    private val nextAnswerHandler = NextAnswerHandler(project, currentFile, question, answerNumber, saveAnswerInTextArea())
+    private val nextAnswerAction = object : AbstractAction("Next answer") {
+        override fun actionPerformed(e: ActionEvent?) {
+            nextAnswerHandler.execute()
+        }
+    }
+
+    private val nextAnswerTitle = "nextAnswer"
+    private val previousAnswerTitle = "previousAnswer"
     init {
         title = "Preview answers"
-        setResizable(false)
         init()
+        getButton(previousAnswerAction)?.let {
+            it.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK), previousAnswerTitle)
+            it.actionMap.put(previousAnswerTitle, previousAnswerAction)
+        }
+        getButton(nextAnswerAction)?.let {
+            it.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), nextAnswerTitle)
+            it.actionMap.put(nextAnswerTitle, nextAnswerAction)
+        }
     }
 
     override fun createCenterPanel(): JComponent? {
         val panel = JPanel(GridBagLayout())
-        val constraints = GridBagConstraints()
         val questionLabel = JLabel("Question: ")
-        constraints.gridx = 0
-        constraints.gridy = 0
-        panel.add(questionLabel, constraints)
-        constraints.gridx = 1
-        constraints.gridy = 0
-        constraints.weightx = 1.0
-        question.addKeyListener(keyPressedListener)
-        panel.add(question, constraints)
+        panel.add(
+            questionLabel, GridBagConstraints(
+                1, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                Insets(0, 0, 5, 5), 0, 0
+            )
+        )
 
-        constraints.gridx = 0
-        constraints.gridy = 1
-        constraints.weightx = 0.0
-        constraints.fill = GridBagConstraints.HORIZONTAL
-        constraints.gridwidth = 2
-        constraints.insets = Insets(10, 0, 0, 1)
-        answer.isEditable = false
-        val scroll = JBScrollPane(answer)
-        scroll.verticalScrollBarPolicy = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-        scroll.horizontalScrollBarPolicy = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        panel.add(scroll, constraints)
+        question.columns = 60
+        question.addKeyListener(keyPressedListener)
+        panel.add(
+            question, GridBagConstraints(
+                2, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                Insets(0, 0, 5, 5), 0, 0
+            )
+        )
+        panel.add(
+            answer, GridBagConstraints(
+                1, 1, 2, 1, 2.0, 2.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                Insets(0, 0, 5, 5), 0, 0
+            )
+        )
+        panel.preferredSize = Dimension(600, 400)
+        setResizable(false)
         return panel
     }
 
@@ -58,7 +94,7 @@ class DisplayAnswerDialog(private val project: Project?, private val currentFile
         return question.text
     }
 
-    fun getLoadedAnswer(): String? {
+    fun getLoadedAnswer(): String {
         return answer.text
     }
 
@@ -71,32 +107,10 @@ class DisplayAnswerDialog(private val project: Project?, private val currentFile
         return question
     }
 
-    class KeyPressedAdapter(
-        project: Project?,
-        currentFile: VirtualFile?,
-        questionProvider: () -> String?,
-        action: (answer: String) -> Unit
-    ) : KeyAdapter() {
-
-        private val timer = Timer(1000) {
-            val question = questionProvider()
-            if (!question.isNullOrEmpty()) {
-                project?.let { projectHandle ->
-                    ExecuteActionOnAnswer(projectHandle, currentFile).apply(question, action)
-                }
-            }
-        }
-
-        init {
-            timer.isRepeats = false
-        }
-
-        override fun keyPressed(e: KeyEvent?) {
-            if (timer.isRunning) {
-                timer.restart()
-            } else {
-                timer.start()
-            }
-        }
+    override fun createLeftSideActions(): Array<Action> {
+        return arrayOf(previousAnswerAction, nextAnswerAction)
     }
+
+    private fun saveAnswerInTextArea(): (String) -> Unit = { answer.text = it }
+
 }
