@@ -44,7 +44,7 @@ class DisplayAnswerDialog(project: Project, currentFile: VirtualFile) : DialogWr
     private val nextAnswerTitle = "nextAnswer"
     private val previousAnswerTitle = "previousAnswer"
     init {
-        title = "Preview answers"
+        title = "Find snippet"
         init()
         getButton(previousAnswerAction)?.let {
             it.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -60,7 +60,7 @@ class DisplayAnswerDialog(project: Project, currentFile: VirtualFile) : DialogWr
 
     override fun createCenterPanel(): JComponent? {
         val panel = JPanel(GridBagLayout())
-        val questionLabel = JLabel("Question: ")
+        val questionLabel = JLabel("Snippet for: ")
         panel.add(
             questionLabel, GridBagConstraints(
                 1, 0, 1, 1, 0.0, 0.0,
