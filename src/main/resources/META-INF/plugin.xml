@@ -15,9 +15,13 @@
     </extensions>
 
     <actions>
-        <action id="IdeaCheatshPlugin.pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" text="Find snippet" description="Loads answers">
+        <action id="IdeaCheatshPlugin.pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" text="Replace with snippet" description="Replaces selected question with snippet">
             <add-to-group group-id="EditorPopupMenu1.FindRefactor" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
+        </action>
+        <action id="FindSnippet" class="pl.szymonprz.cheatsh.plugin.action.FindSnippet" text="Find snippet"
+                description="Find snippets for asked question">
+            <keyboard-shortcut keymap="$default" first-keystroke="alt P"/>
         </action>
     </actions>
     <version>1.0.2-SNAPSHOT</version>
