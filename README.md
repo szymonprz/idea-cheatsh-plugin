@@ -4,17 +4,27 @@ Plugin for loading code snippets from cheat.sh directly to editor without need t
 ## Features
 * No configuration needed to start using it
 * Detects context/programming language from current file opened in editor
-* Default keyboard shortcut added <kbd>Alt</kbd> + <kbd>C</kbd> , <kbd>S</kbd>
+* Multiple answers can be displayed for asked question
 * Possibility to enable/disable comments per project - comments are disabled by default
 
-## Instalation 
+## Installation 
 
 Install from [idea plugins marketplace](https://plugins.jetbrains.com/plugin/11942-cheat-sh-code-snippets) 
 
 ## Usage
 
 
-### Use keyboard shortcut <kbd>Alt</kbd> + <kbd>C</kbd> , <kbd>S</kbd>
+### Invoke find snippet action by using <kbd>Alt</kbd> + <kbd>P</kbd> or from actions menu
+
+1. Write your question
+2. Wait a second, answer will appear automatically in field below your question
+3. Use <kbd>Ctrl</kbd> + <kbd>N</kbd> for next answer and <kbd>Ctrl</kbd> + <kbd>P</kbd> for previous or switch answer by buttons
+4. <kbd>Enter</kbd> will paste displayed snippet into editor
+
+![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/findSnippet.gif)
+
+
+### Use keyboard shortcut <kbd>Alt</kbd> + <kbd>C</kbd> , <kbd>S</kbd> to replace question with snippet
 
 1. Select text in an editor
 2. Press keyboard shortcut <kbd>Alt</kbd> + <kbd>C</kbd> , <kbd>S</kbd>
@@ -22,19 +32,12 @@ Install from [idea plugins marketplace](https://plugins.jetbrains.com/plugin/119
 ![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/useKeyboardShortcut.gif)
 
 
-### Search for a snippet based on selected text
+### Replace selected text with snippet by using editor context menu
 
 1. Select text in an editor
-2. Right click and choose "Find snippet"
+2. Right click and choose "Replace with snippet"
 
-![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/rightClickAndFindSnippet.gif)
-
-### Execute Find snippet action with selected text
-
-1. Select text in an editor
-2. Execute action "Find snippet"
-
-![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/executeAction.gif)
+![Preview](https://raw.githubusercontent.com/szymonprz/idea-cheatsh-plugin/master/contrib/rightClick.gif)
 
 ## Configuration options
 
