@@ -6,7 +6,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import pl.szymonprz.cheatsh.plugin.ui.DisplayAnswerDialog
 import pl.szymonprz.cheatsh.plugin.utils.EditorUtils
 
-class PreviewAnswers : AnAction() {
+class FindSnippet : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getRequiredData(CommonDataKeys.EDITOR)
