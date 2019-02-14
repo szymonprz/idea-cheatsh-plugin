@@ -24,6 +24,6 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt P"/>
         </action>
     </actions>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.0</version>
     <idea-version since-build="162"/>
 </idea-plugin>
