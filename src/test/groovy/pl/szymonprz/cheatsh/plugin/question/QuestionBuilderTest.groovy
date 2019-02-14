@@ -49,21 +49,11 @@ class QuestionBuilderTest extends Specification {
         question("java/my question", "kt") == "java/my+question?Q"
     }
 
-    def "should add answer number modifier"() {
-        given:
-        storage.commentsEnabled = false
-        expect:
-        question("java/my question", 2) == "java/my+question/2?Q"
-    }
-
     String question(String text) {
-        return new QuestionBuilder(storage,text, null).build()
+        return new QuestionBuilder(storage).fromQuestion(text).build()
     }
 
     String question(String text, String fileExtension) {
-        return new QuestionBuilder(storage, text, fileExtension).build()
-    }
-    String question(String text, Integer answerNumber) {
-        return new QuestionBuilder(storage, text, null).askForAnswerNumber(answerNumber).build()
+        return new QuestionBuilder(storage).fromQuestion(text).fromFile(fileExtension).build()
     }
 }
