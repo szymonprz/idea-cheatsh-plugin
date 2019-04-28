@@ -1,11 +1,10 @@
 package pl.szymonprz.cheatsh.plugin.action
 
 import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.CodeStyleManager
 import pl.szymonprz.cheatsh.plugin.ui.ReplaceQuestionWithAnswerHandler
 import pl.szymonprz.cheatsh.plugin.utils.EditorUtils
 
@@ -29,20 +28,25 @@ class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerActio
         val question = document.getText(TextRange.create(start, end)).replace(Regex("\\s+"), "+")
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         project?.let { projectHandle ->
-
             ReplaceQuestionWithAnswerHandler(projectHandle, currentFile, question,
                 {
-                    WriteCommandAction.runWriteCommandAction(projectHandle) {
-                        document.replaceString(start, end, it)
-                        EditorUtils.reformatFileInRange(projectHandle, psiFile, start, start + it.length)
-                    }
+                    ApplicationManager.getApplication().invokeLater({
+                        WriteCommandAction.runWriteCommandAction(projectHandle) {
+                            document.replaceString(start, end, it)
+                            EditorUtils.reformatFileInRange(projectHandle, psiFile, start, start + it.length)
+                        }
+                    }, ModalityState.NON_MODAL)
                 }, {
-                    WriteCommandAction.runWriteCommandAction(projectHandle) {
-                        document.replaceString(start, end, "no answers for given question")
-                    }
+                    ApplicationManager.getApplication().invokeLater({
+                        WriteCommandAction.runWriteCommandAction(projectHandle) {
+                            document.replaceString(start, end, "no answers for given question")
+                        }
+                    }, ModalityState.NON_MODAL)
                 }
             ).execute()
             selectionModel.removeSelection(true)
+
+
         }
     }
 }
