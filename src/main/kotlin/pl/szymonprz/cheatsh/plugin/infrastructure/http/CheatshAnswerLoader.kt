@@ -1,7 +1,8 @@
-package pl.szymonprz.cheatsh.plugin.answerclient
+package pl.szymonprz.cheatsh.plugin.infrastructure.http
 
 import com.intellij.openapi.application.ApplicationInfo
 import com.mashape.unirest.http.Unirest
+import pl.szymonprz.cheatsh.plugin.domain.AnswerLoader
 
 class CheatshAnswerLoader : AnswerLoader {
     override fun answerFor(question: String): String {

@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.question
+package pl.szymonprz.cheatsh.plugin.domain.question
 
 interface LanguageResolver {
     fun accepts(extension: String): Boolean

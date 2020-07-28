@@ -1,14 +1,17 @@
-package pl.szymonprz.cheatsh.plugin.action
+package pl.szymonprz.cheatsh.plugin.ui.action
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.ui.DialogWrapper
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import pl.szymonprz.cheatsh.plugin.ui.DisplayAnswerDialog
-import pl.szymonprz.cheatsh.plugin.utils.EditorUtils
+import pl.szymonprz.cheatsh.plugin.ui.utils.EditorUtils
 
 class FindSnippet : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
+
         val editor = e.getRequiredData(CommonDataKeys.EDITOR)
         val project = editor.project
         val document = editor.document
@@ -16,7 +19,8 @@ class FindSnippet : AnAction() {
         val caretModel = editor.caretModel
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         if (project != null && currentFile != null) {
-            val createTableDialog = DisplayAnswerDialog(project, currentFile)
+            val storage: Storage = ServiceManager.getService(project, Storage::class.java)
+            val createTableDialog = DisplayAnswerDialog(storage, project, currentFile)
             createTableDialog.show()
             if (createTableDialog.exitCode == DialogWrapper.OK_EXIT_CODE) {
                 val start = caretModel.offset

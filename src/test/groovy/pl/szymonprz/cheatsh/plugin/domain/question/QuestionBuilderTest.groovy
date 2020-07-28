@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.question
+package pl.szymonprz.cheatsh.plugin.domain.question
 
 import pl.szymonprz.cheatsh.plugin.model.Storage
 import spock.lang.Specification

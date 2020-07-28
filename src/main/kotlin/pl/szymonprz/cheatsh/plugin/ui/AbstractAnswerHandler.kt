@@ -1,21 +1,17 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import pl.szymonprz.cheatsh.plugin.answerclient.CheatshAnswerLoader
 import pl.szymonprz.cheatsh.plugin.answerclient.NoAnswerAvailableException
-import pl.szymonprz.cheatsh.plugin.model.Storage
-import pl.szymonprz.cheatsh.plugin.question.QuestionBuilder
+import pl.szymonprz.cheatsh.plugin.domain.question.QuestionBuilder
+import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import javax.swing.SwingUtilities
 
 abstract class AbstractAnswerHandler(
-    project: Project,
+    private val storage: Storage,
     private val currentFile: VirtualFile?,
     private val questionSupplier: () -> String?
 ) {
-
-    private val storage: Storage = ServiceManager.getService(project, Storage::class.java)
 
     fun execute() {
         if (shouldExecute()) {
@@ -26,7 +22,8 @@ abstract class AbstractAnswerHandler(
                     .build()
                 try {
                     SwingUtilities.invokeLater {
-                        val answer = CheatshAnswerLoader().answerFor(builtQuestion)
+                        val answer = CheatshAnswerLoader()
+                            .answerFor(builtQuestion)
                         doOnSuccess(answer)
                     }
                 } catch (e: NoAnswerAvailableException) {

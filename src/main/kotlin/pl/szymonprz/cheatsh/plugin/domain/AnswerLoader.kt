@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.answerclient
+package pl.szymonprz.cheatsh.plugin.domain
 
 interface AnswerLoader {
     fun answerFor(question: String): String

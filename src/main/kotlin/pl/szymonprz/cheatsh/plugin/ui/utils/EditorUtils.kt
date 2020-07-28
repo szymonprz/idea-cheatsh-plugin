@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.utils
+package pl.szymonprz.cheatsh.plugin.ui.utils
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile

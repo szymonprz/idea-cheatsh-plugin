@@ -10,16 +10,16 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="pl.szymonprz.cheatsh.plugin.model.Storage"/>
+        <projectService serviceImplementation="pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage"/>
         <projectConfigurable id="settings.cheatsh" instance="pl.szymonprz.cheatsh.plugin.ui.Configuration"/>
     </extensions>
 
     <actions>
-        <action id="IdeaCheatshPlugin.pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.action.ReplaceQuestionWithAnswerAction" text="Replace with snippet" description="Replaces selected question with snippet">
+        <action id="IdeaCheatshPlugin.pl.szymonprz.cheatsh.plugin.ui.action.ReplaceQuestionWithAnswerAction" class="pl.szymonprz.cheatsh.plugin.ui.action.ReplaceQuestionWithAnswerAction" text="Replace with snippet" description="Replaces selected question with snippet">
             <add-to-group group-id="EditorPopupMenu1.FindRefactor" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" second-keystroke="S"/>
         </action>
-        <action id="FindSnippet" class="pl.szymonprz.cheatsh.plugin.action.FindSnippet" text="Find snippet"
+        <action id="FindSnippet" class="pl.szymonprz.cheatsh.plugin.ui.action.FindSnippet" text="Find snippet"
                 description="Find snippets for asked question">
             <keyboard-shortcut keymap="$default" first-keystroke="alt P"/>
         </action>

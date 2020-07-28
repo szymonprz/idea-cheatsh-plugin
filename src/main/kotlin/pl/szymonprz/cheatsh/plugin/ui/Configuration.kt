@@ -3,9 +3,9 @@ package pl.szymonprz.cheatsh.plugin.ui
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
-import pl.szymonprz.cheatsh.plugin.model.Action
-import pl.szymonprz.cheatsh.plugin.model.Action.enableComments
-import pl.szymonprz.cheatsh.plugin.model.Storage
+import pl.szymonprz.cheatsh.plugin.domain.Action
+import pl.szymonprz.cheatsh.plugin.domain.Action.enableComments
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.JCheckBox

@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.model
+package pl.szymonprz.cheatsh.plugin.infrastructure.storage
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State

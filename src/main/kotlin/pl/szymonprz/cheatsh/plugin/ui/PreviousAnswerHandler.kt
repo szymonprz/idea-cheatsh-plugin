@@ -1,18 +1,18 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import pl.szymonprz.cheatsh.plugin.answerclient.NoAnswerAvailableException
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import java.util.concurrent.atomic.AtomicInteger
 import javax.swing.JTextField
 
 class PreviousAnswerHandler(
-    project: Project,
+    storage: Storage,
     currentFile: VirtualFile,
     questionField: JTextField,
     private val answerNumber: AtomicInteger,
     private val action: (answer: String) -> Unit
-) : AbstractAnswerHandler(project, currentFile, { questionField.text }) {
+) : AbstractAnswerHandler(storage, currentFile, { questionField.text }) {
 
     override fun doOnError(e: NoAnswerAvailableException) {
         answerNumber.incrementAndGet()

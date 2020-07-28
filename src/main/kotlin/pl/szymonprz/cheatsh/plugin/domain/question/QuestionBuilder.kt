@@ -1,7 +1,6 @@
-package pl.szymonprz.cheatsh.plugin.question
+package pl.szymonprz.cheatsh.plugin.domain.question
 
-import com.intellij.openapi.vfs.VirtualFile
-import pl.szymonprz.cheatsh.plugin.model.Storage
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 
 
 class QuestionBuilder(
