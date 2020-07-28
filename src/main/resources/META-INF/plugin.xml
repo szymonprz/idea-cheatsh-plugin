@@ -11,7 +11,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage"/>
-        <projectConfigurable id="settings.cheatsh" instance="pl.szymonprz.cheatsh.plugin.ui.Configuration"/>
+        <projectConfigurable id="settings.cheatsh" instance="pl.szymonprz.cheatsh.plugin.ui.configuration.Configuration"/>
     </extensions>
 
     <actions>

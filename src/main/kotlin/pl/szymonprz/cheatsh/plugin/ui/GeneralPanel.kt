@@ -1,7 +1,7 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
 import com.intellij.ui.IdeBorderFactory
-import pl.szymonprz.cheatsh.plugin.domain.Action
+import pl.szymonprz.cheatsh.plugin.ui.configuration.Action
 import java.awt.Dimension
 import javax.swing.Box
 import javax.swing.BoxLayout

@@ -1,4 +1,4 @@
-package pl.szymonprz.cheatsh.plugin.ui
+package pl.szymonprz.cheatsh.plugin.ui.action
 
 import pl.szymonprz.cheatsh.plugin.answerclient.NoAnswerAvailableException
 import pl.szymonprz.cheatsh.plugin.domain.AbstractAnswerHandler

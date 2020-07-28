@@ -9,7 +9,6 @@ import com.intellij.openapi.util.TextRange
 import pl.szymonprz.cheatsh.plugin.domain.cheatsh.CheatshAnswerProvider
 import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
-import pl.szymonprz.cheatsh.plugin.ui.ReplaceQuestionWithAnswerHandler
 import pl.szymonprz.cheatsh.plugin.ui.utils.EditorUtils
 
 
@@ -35,7 +34,8 @@ class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer")
             val storage: Storage = ServiceManager.getService(project, Storage::class.java)
             val answerProvider =
                 CheatshAnswerProvider(storage.commentsEnabled, currentFile?.extension, CheatshAnswerLoader())
-            ReplaceQuestionWithAnswerHandler(answerProvider, question,
+            ReplaceQuestionWithAnswerHandler(answerProvider,
+                question,
                 {
                     ApplicationManager.getApplication().invokeLater({
                         WriteCommandAction.runWriteCommandAction(projectHandle) {
@@ -43,7 +43,8 @@ class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer")
                             EditorUtils.reformatFileInRange(projectHandle, psiFile, start, start + it.length)
                         }
                     }, ModalityState.NON_MODAL)
-                }, {
+                },
+                {
                     ApplicationManager.getApplication().invokeLater({
                         WriteCommandAction.runWriteCommandAction(projectHandle) {
                             document.replaceString(start, end, "no answers for given question")
