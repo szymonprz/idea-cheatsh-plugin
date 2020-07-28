@@ -1,6 +1,6 @@
 package pl.szymonprz.cheatsh.plugin.domain.question
 
-import pl.szymonprz.cheatsh.plugin.model.Storage
+import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import spock.lang.Specification
 
 class QuestionBuilderTest extends Specification {
