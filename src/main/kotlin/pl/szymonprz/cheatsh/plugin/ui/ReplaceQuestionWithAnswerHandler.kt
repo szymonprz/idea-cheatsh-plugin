@@ -1,16 +1,15 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
-import com.intellij.openapi.vfs.VirtualFile
 import pl.szymonprz.cheatsh.plugin.answerclient.NoAnswerAvailableException
-import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
+import pl.szymonprz.cheatsh.plugin.domain.AbstractAnswerHandler
+import pl.szymonprz.cheatsh.plugin.domain.AnswerProvider
 
 class ReplaceQuestionWithAnswerHandler(
-    storage: Storage,
-    currentFile: VirtualFile?,
+    answerProvider: AnswerProvider,
     question: String,
     private val action: (answer: String) -> Unit,
     private val fallback: (answer: NoAnswerAvailableException) -> Unit
-) : AbstractAnswerHandler(storage, currentFile, { question }) {
+) : AbstractAnswerHandler(answerProvider, { question }) {
     override fun doOnSuccess(answer: String) {
         action(answer)
     }

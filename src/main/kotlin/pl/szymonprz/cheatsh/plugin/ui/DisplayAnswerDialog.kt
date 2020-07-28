@@ -3,6 +3,8 @@ package pl.szymonprz.cheatsh.plugin.ui
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.vfs.VirtualFile
+import pl.szymonprz.cheatsh.plugin.domain.cheatsh.CheatshAnswerProvider
+import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import java.awt.Dimension
 import java.awt.GridBagConstraints
@@ -17,29 +19,35 @@ import javax.swing.*
 
 class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: VirtualFile) : DialogWrapper(false) {
     private val answerNumber = AtomicInteger()
+    private val answerProvider =
+        CheatshAnswerProvider(storage.commentsEnabled, currentFile.extension, CheatshAnswerLoader())
 
     private val question = JTextField("", 60)
-    private val answer = ScrollableEditorTextField(project, currentFile.fileType)
 
+    private val answer = ScrollableEditorTextField(project, currentFile.fileType)
     private val onWrittenQuestionAnswerHandler =
-        OnWrittenQuestionAnswerHandler(storage, currentFile, question, saveAnswerInTextArea())
+        OnWrittenQuestionAnswerHandler(answerProvider, question, saveAnswerInTextArea())
 
     private val keyPressedListener =
         KeyPressedAdapter(onWrittenQuestionAnswerHandler, answerNumber)
 
     private val previousAnswerHandler =
-        PreviousAnswerHandler(storage, currentFile, question, answerNumber, saveAnswerInTextArea())
+        PreviousAnswerHandler(answerProvider, question, answerNumber, saveAnswerInTextArea())
     private val previousAnswerAction = object : AbstractAction("Previous answer") {
         override fun actionPerformed(e: ActionEvent?) {
-            previousAnswerHandler.execute()
+            SwingUtilities.invokeLater {
+                previousAnswerHandler.execute()
+            }
         }
     }
 
     private val nextAnswerHandler =
-        NextAnswerHandler(storage, currentFile, question, answerNumber, saveAnswerInTextArea())
+        NextAnswerHandler(answerProvider, question, answerNumber, saveAnswerInTextArea())
     private val nextAnswerAction = object : AbstractAction("Next answer") {
         override fun actionPerformed(e: ActionEvent?) {
-            nextAnswerHandler.execute()
+            SwingUtilities.invokeLater {
+                nextAnswerHandler.execute()
+            }
         }
     }
 

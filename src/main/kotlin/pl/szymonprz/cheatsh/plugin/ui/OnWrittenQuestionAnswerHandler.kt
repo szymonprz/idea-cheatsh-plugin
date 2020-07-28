@@ -1,16 +1,15 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
-import com.intellij.openapi.vfs.VirtualFile
 import pl.szymonprz.cheatsh.plugin.answerclient.NoAnswerAvailableException
-import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
+import pl.szymonprz.cheatsh.plugin.domain.AbstractAnswerHandler
+import pl.szymonprz.cheatsh.plugin.domain.AnswerProvider
 import javax.swing.JTextField
 
 class OnWrittenQuestionAnswerHandler(
-    storage: Storage,
-    currentFile: VirtualFile,
+    answerProvider: AnswerProvider,
     questionField: JTextField,
     private val action: (answer: String) -> Unit
-) : AbstractAnswerHandler(storage, currentFile, { questionField.text }) {
+) : AbstractAnswerHandler(answerProvider, { questionField.text }) {
 
     override fun doOnSuccess(answer: String) {
         action(answer)

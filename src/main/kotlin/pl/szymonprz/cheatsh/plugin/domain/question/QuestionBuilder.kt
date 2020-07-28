@@ -1,10 +1,8 @@
 package pl.szymonprz.cheatsh.plugin.domain.question
 
-import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
-
 
 class QuestionBuilder(
-    private val storage: Storage,
+    private val commentsEnabled: Boolean,
     private val askedQuestion: String,
     private val fileExtension: String? = null
 ) {
@@ -48,7 +46,7 @@ class QuestionBuilder(
     }
 
     private fun applyCommentsModificator(question: String): String {
-        return if (!storage.commentsEnabled) "$question?Q" else question
+        return if (!commentsEnabled) "$question?Q" else question
     }
 
 

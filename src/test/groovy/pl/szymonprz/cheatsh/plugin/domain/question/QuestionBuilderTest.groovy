@@ -1,15 +1,8 @@
 package pl.szymonprz.cheatsh.plugin.domain.question
 
-import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import spock.lang.Specification
 
 class QuestionBuilderTest extends Specification {
-
-    private Storage storage = new Storage()
-
-    def setup() {
-        storage.commentsEnabled = true
-    }
 
     def "should replace white chars to '+'"() {
         expect:
@@ -43,27 +36,32 @@ class QuestionBuilderTest extends Specification {
     }
 
     def "should add no comments modifier when comments are disabled"() {
-        given:
-        storage.commentsEnabled = false
         expect:
-        question("java/my question", "kt") == "java/my+question?Q"
+        questionWithoutComments("java/my question", "kt") == "java/my+question?Q"
     }
 
     def "should add answer number modifier"() {
-        given:
-        storage.commentsEnabled = false
         expect:
-        question("java/my question", 2) == "java/my+question/2?Q"
+        questionWithoutComments("java/my question", 2) == "java/my+question/2?Q"
     }
 
     String question(String text) {
-        return new QuestionBuilder(storage,text, null).build()
+        return new QuestionBuilder(true, text, null).build()
     }
 
     String question(String text, String fileExtension) {
-        return new QuestionBuilder(storage, text, fileExtension).build()
+        return new QuestionBuilder(true, text, fileExtension).build()
     }
+
+    String questionWithoutComments(String text, String fileExtension) {
+        return new QuestionBuilder(false, text, fileExtension).build()
+    }
+
     String question(String text, Integer answerNumber) {
-        return new QuestionBuilder(storage, text, null).askForAnswerNumber(answerNumber).build()
+        return new QuestionBuilder(true, text, null).askForAnswerNumber(answerNumber).build()
+    }
+
+    String questionWithoutComments(String text, Integer answerNumber) {
+        return new QuestionBuilder(false, text, null).askForAnswerNumber(answerNumber).build()
     }
 }

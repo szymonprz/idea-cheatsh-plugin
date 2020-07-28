@@ -6,12 +6,14 @@ import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.util.TextRange
+import pl.szymonprz.cheatsh.plugin.domain.cheatsh.CheatshAnswerProvider
+import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import pl.szymonprz.cheatsh.plugin.ui.ReplaceQuestionWithAnswerHandler
 import pl.szymonprz.cheatsh.plugin.ui.utils.EditorUtils
 
 
-class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerAction") {
+class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer") {
 
     override fun update(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)
@@ -31,7 +33,9 @@ class ReplaceQuestionWithAnswerAction : AnAction("ReplaceQuestionWithAnswerActio
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         project?.let { projectHandle ->
             val storage: Storage = ServiceManager.getService(project, Storage::class.java)
-            ReplaceQuestionWithAnswerHandler(storage, currentFile, question,
+            val answerProvider =
+                CheatshAnswerProvider(storage.commentsEnabled, currentFile?.extension, CheatshAnswerLoader())
+            ReplaceQuestionWithAnswerHandler(answerProvider, question,
                 {
                     ApplicationManager.getApplication().invokeLater({
                         WriteCommandAction.runWriteCommandAction(projectHandle) {
