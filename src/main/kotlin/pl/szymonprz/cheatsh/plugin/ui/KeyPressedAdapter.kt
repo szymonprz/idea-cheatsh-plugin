@@ -4,18 +4,22 @@ import pl.szymonprz.cheatsh.plugin.domain.AbstractAnswerHandler
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.util.concurrent.atomic.AtomicInteger
-import javax.swing.SwingUtilities
+import javax.swing.SwingWorker
 import javax.swing.Timer
 
 class KeyPressedAdapter(
-    answerHandler: AbstractAnswerHandler,
+    private val answerHandler: AbstractAnswerHandler,
     private val answerNumber: AtomicInteger
 ) : KeyAdapter() {
 
-    private val timer = Timer(1000) {
-        SwingUtilities.invokeLater {
-            answerHandler.execute()
+    private val timer = Timer(300) {
+        val worker = object: SwingWorker<Void, Void>(){
+            override fun doInBackground(): Void? {
+                answerHandler.execute()
+                return null
+            }
         }
+        worker.execute()
     }
 
     init {

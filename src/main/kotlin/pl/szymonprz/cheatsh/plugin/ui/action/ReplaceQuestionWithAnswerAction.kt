@@ -10,6 +10,7 @@ import pl.szymonprz.cheatsh.plugin.domain.cheatsh.CheatshAnswerProvider
 import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import pl.szymonprz.cheatsh.plugin.ui.utils.EditorUtils
+import javax.swing.SwingWorker
 
 
 class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer") {
@@ -34,7 +35,8 @@ class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer")
             val storage: Storage = ServiceManager.getService(project, Storage::class.java)
             val answerProvider =
                 CheatshAnswerProvider(storage.commentsEnabled, currentFile?.extension, CheatshAnswerLoader())
-            ReplaceQuestionWithAnswerHandler(answerProvider,
+
+            val handler = ReplaceQuestionWithAnswerHandler(answerProvider,
                 question,
                 {
                     ApplicationManager.getApplication().invokeLater({
@@ -51,7 +53,14 @@ class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer")
                         }
                     }, ModalityState.NON_MODAL)
                 }
-            ).execute()
+            )
+            val worker = object: SwingWorker<Void, Void>(){
+                override fun doInBackground(): Void? {
+                    handler.execute()
+                    return null
+                }
+            }
+            worker.execute()
             selectionModel.removeSelection(true)
 
 
