@@ -35,9 +35,13 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         PreviousAnswerHandler(answerProvider, question, answerNumber, saveAnswerInTextArea())
     private val previousAnswerAction = object : AbstractAction("Previous answer") {
         override fun actionPerformed(e: ActionEvent?) {
-            SwingUtilities.invokeLater {
-                previousAnswerHandler.execute()
+            val worker = object: SwingWorker<Void, Void>(){
+                override fun doInBackground(): Void? {
+                    previousAnswerHandler.execute()
+                    return null
+                }
             }
+            worker.execute()
         }
     }
 
@@ -45,9 +49,13 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         NextAnswerHandler(answerProvider, question, answerNumber, saveAnswerInTextArea())
     private val nextAnswerAction = object : AbstractAction("Next answer") {
         override fun actionPerformed(e: ActionEvent?) {
-            SwingUtilities.invokeLater {
-                nextAnswerHandler.execute()
+            val worker = object: SwingWorker<Void, Void>(){
+                override fun doInBackground(): Void? {
+                    nextAnswerHandler.execute()
+                    return null
+                }
             }
+            worker.execute()
         }
     }
 
@@ -122,6 +130,10 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         return arrayOf(previousAnswerAction, nextAnswerAction)
     }
 
-    private fun saveAnswerInTextArea(): (String) -> Unit = { answer.text = it }
+    private fun saveAnswerInTextArea(): (String) -> Unit = {
+        SwingUtilities.invokeLater {
+            answer.text = it
+        }
+    }
 
 }
