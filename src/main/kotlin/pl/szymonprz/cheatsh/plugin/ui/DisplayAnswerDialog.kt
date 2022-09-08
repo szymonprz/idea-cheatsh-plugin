@@ -33,6 +33,8 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
 
     private val previousAnswerHandler =
         PreviousAnswerHandler(answerProvider, question, answerNumber, saveAnswerInTextArea())
+
+    private var userSelectedAnswer = ""
     private val previousAnswerAction = object : AbstractAction("Previous answer") {
         override fun actionPerformed(e: ActionEvent?) {
             val worker = object: SwingWorker<Void, Void>(){
@@ -113,13 +115,24 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         return question.text
     }
 
-    fun getLoadedAnswer(): String {
+    private fun getLoadedAnswer(): String {
+        val selectionModel = answer.editor?.selectionModel
+        if(selectionModel != null){
+            return selectionModel.selectedText ?: answer.text
+        }
         return answer.text
     }
+
+    fun getUserSelectedAnswer(): String = userSelectedAnswer
 
     override fun dispose() {
         super.dispose()
         question.removeKeyListener(keyPressedListener)
+    }
+
+    override fun doOKAction() {
+        userSelectedAnswer = getLoadedAnswer()
+        super.doOKAction()
     }
 
     override fun getPreferredFocusedComponent(): JComponent {
