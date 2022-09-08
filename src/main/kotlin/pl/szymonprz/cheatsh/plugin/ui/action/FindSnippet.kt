@@ -24,7 +24,7 @@ class FindSnippet : AnAction() {
             if (createTableDialog.exitCode == DialogWrapper.OK_EXIT_CODE) {
                 val start = caretModel.offset
                 WriteCommandAction.runWriteCommandAction(project) {
-                    val loadedAnswer = createTableDialog.getLoadedAnswer()
+                    val loadedAnswer = createTableDialog.getUserSelectedAnswer()
                     document.insertString(start, loadedAnswer)
                     EditorUtils.reformatFileInRange(project, psiFile, start, start + loadedAnswer.length)
                 }
