@@ -2,7 +2,6 @@ package pl.szymonprz.cheatsh.plugin.ui.action
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.ui.DialogWrapper
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import pl.szymonprz.cheatsh.plugin.ui.DisplayAnswerDialog
@@ -19,7 +18,7 @@ class FindSnippet : AnAction() {
         val caretModel = editor.caretModel
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         if (project != null && currentFile != null) {
-            val storage: Storage = ServiceManager.getService(project, Storage::class.java)
+            val storage: Storage = project.getService(Storage::class.java)
             val createTableDialog = DisplayAnswerDialog(storage, project, currentFile)
             createTableDialog.show()
             if (createTableDialog.exitCode == DialogWrapper.OK_EXIT_CODE) {

@@ -1,11 +1,11 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.20"
-    id("org.jetbrains.intellij") version "1.8.0"
+    id("org.jetbrains.intellij") version "1.9.0"
     id("groovy")
 }
 
 group = "pl.szymonprz"
-version = "1.3.2"
+version = "1.3.3"
 
 repositories {
     mavenCentral()
@@ -20,17 +20,25 @@ dependencies {
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-    version.set("2021.2")
+    version.set("2021.1")
     updateSinceUntilBuild.set(false)
 }
 
 tasks {
+    compileJava {
+        targetCompatibility = "1.8"
+    }
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    buildSearchableOptions {
+        enabled = false
     }
 
     patchPluginXml {
-        sinceBuild.set("162")
+        sinceBuild.set("211")
     }
 
     signPlugin {

@@ -67,17 +67,17 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         init()
         getButton(previousAnswerAction)?.let {
             it.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK), previousAnswerTitle)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), previousAnswerTitle)
             it.actionMap.put(previousAnswerTitle, previousAnswerAction)
         }
         getButton(nextAnswerAction)?.let {
             it.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), nextAnswerTitle)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK), nextAnswerTitle)
             it.actionMap.put(nextAnswerTitle, nextAnswerAction)
         }
     }
 
-    override fun createCenterPanel(): JComponent? {
+    override fun createCenterPanel(): JComponent {
         val panel = JPanel(GridBagLayout())
         val questionLabel = JLabel("Snippet for: ")
         panel.add(
@@ -122,7 +122,7 @@ class DisplayAnswerDialog(storage: Storage, project: Project, currentFile: Virtu
         question.removeKeyListener(keyPressedListener)
     }
 
-    override fun getPreferredFocusedComponent(): JComponent? {
+    override fun getPreferredFocusedComponent(): JComponent {
         return question
     }
 

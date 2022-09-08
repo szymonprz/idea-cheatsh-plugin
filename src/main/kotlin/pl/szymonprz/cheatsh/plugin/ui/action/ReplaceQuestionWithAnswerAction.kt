@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.util.TextRange
 import pl.szymonprz.cheatsh.plugin.domain.cheatsh.CheatshAnswerProvider
 import pl.szymonprz.cheatsh.plugin.infrastructure.http.CheatshAnswerLoader
@@ -32,7 +31,7 @@ class ReplaceQuestionWithAnswerAction : AnAction("Replace question with answer")
         val question = document.getText(TextRange.create(start, end)).replace(Regex("\\s+"), "+")
         val currentFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
         project?.let { projectHandle ->
-            val storage: Storage = ServiceManager.getService(project, Storage::class.java)
+            val storage: Storage = project.getService(Storage::class.java)
             val answerProvider =
                 CheatshAnswerProvider(storage.commentsEnabled, currentFile?.extension, CheatshAnswerLoader())
 
