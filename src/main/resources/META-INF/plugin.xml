@@ -25,5 +25,5 @@
         </action>
     </actions>
     <version>1.3.3</version>
-    <idea-version since-build="2020.1.4"/>
+    <idea-version since-build="201"/>
 </idea-plugin>

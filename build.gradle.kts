@@ -19,13 +19,17 @@ dependencies {
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-    version.set("2021.2")
+    version.set("2020.1.4")
     updateSinceUntilBuild.set(false)
 }
 
 tasks {
+    compileJava {
+        targetCompatibility = "1.8"
+    }
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     buildSearchableOptions {
@@ -33,7 +37,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("2020.1.4")
+        sinceBuild.set("201")
     }
 
     signPlugin {
