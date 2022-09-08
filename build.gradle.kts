@@ -1,4 +1,5 @@
 plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.20"
     id("org.jetbrains.intellij") version "1.9.0"
     id("groovy")
 }
@@ -19,7 +20,7 @@ dependencies {
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-    version.set("2020.1.4")
+    version.set("2021.1")
     updateSinceUntilBuild.set(false)
 }
 
@@ -37,7 +38,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("201")
+        sinceBuild.set("211")
     }
 
     signPlugin {
