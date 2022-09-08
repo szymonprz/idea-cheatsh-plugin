@@ -1,11 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.6.20"
-    id("org.jetbrains.intellij") version "1.8.0"
+    id("org.jetbrains.intellij") version "1.9.0"
     id("groovy")
 }
 
 group = "pl.szymonprz"
-version = "1.3.2"
+version = "1.3.3"
 
 repositories {
     mavenCentral()
@@ -29,8 +28,12 @@ tasks {
         kotlinOptions.jvmTarget = "11"
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
     patchPluginXml {
-        sinceBuild.set("162")
+        sinceBuild.set("2020.1.4")
     }
 
     signPlugin {

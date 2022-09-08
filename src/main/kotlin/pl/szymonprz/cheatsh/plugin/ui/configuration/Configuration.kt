@@ -1,11 +1,10 @@
 package pl.szymonprz.cheatsh.plugin.ui.configuration
 
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
-import pl.szymonprz.cheatsh.plugin.ui.configuration.Action.enableComments
 import pl.szymonprz.cheatsh.plugin.infrastructure.storage.Storage
 import pl.szymonprz.cheatsh.plugin.ui.GeneralPanel
+import pl.szymonprz.cheatsh.plugin.ui.configuration.Action.enableComments
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.JCheckBox
@@ -14,7 +13,7 @@ import javax.swing.JPanel
 
 class Configuration(project: Project) : Configurable {
 
-    private val storage: Storage = ServiceManager.getService(project, Storage::class.java)
+    private val storage: Storage = project.getService(Storage::class.java)
 
     private val TEXT_DISPLAY_NAME = "Cheat.sh"
     private var generalPanel: GeneralPanel? = null

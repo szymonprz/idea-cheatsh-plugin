@@ -1,6 +1,5 @@
 package pl.szymonprz.cheatsh.plugin.ui
 
-import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.fileTypes.FileType
